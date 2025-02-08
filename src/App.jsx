@@ -1,9 +1,12 @@
 import './App.css'
-import Dashboard from './layouts/Dasboard';
+import Layout from './layouts/Layout';
+import Routers from './routes/Routes';
 
 function App() {
   return (
-    <Dashboard/>
+    <Layout>
+      <Routers/>
+    </Layout>
   )
 }
 

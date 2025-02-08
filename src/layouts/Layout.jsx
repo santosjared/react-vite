@@ -10,7 +10,6 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import HorizontalBar from '../Components/bar/HorizontalBar';
 import Navegation from '../navegation/Navegation';
-import Routers from '../routes/Routes';
 
 const drawerWidth = 240;
 
@@ -88,7 +87,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 
-export default function Dasboard() {
+export default function Layout({children}) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -122,7 +121,7 @@ export default function Dasboard() {
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
-        <Routers/>
+        {children}
       </Box>
     </Box>
   );
