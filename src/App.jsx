@@ -1,14 +1,9 @@
 import './App.css'
-
-import Home from './screens/Home.jsx';
-import Counter from "./Components/Counter/Counter.jsx";
+import Dashboard from './layouts/Dasboard';
 
 function App() {
   return (
-    <>
-        <Home />
-        <Counter />
-    </>
+    <Dashboard/>
   )
 }
 
