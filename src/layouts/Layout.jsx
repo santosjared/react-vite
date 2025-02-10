@@ -119,7 +119,7 @@ export default function Layout({children}) {
           }}/>
      <Navegation/>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
+      <Box component="main" sx={{ flexGrow: 0, p: 3 }}>
         <DrawerHeader />
         {children}
       </Box>

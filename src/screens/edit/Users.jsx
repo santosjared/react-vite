@@ -1,12 +1,12 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from "@mui/material"
+import { Box, Button, Checkbox, FormControl, FormControlLabel, IconButton, InputAdornment, InputLabel, OutlinedInput, TextField, Typography } from '@mui/material';
 import { Table, Td, Tr } from '../../Components/CustomTable'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import useForm from '../../hooks/useForm';
-import { useDispatch } from "react-redux";
-import { addUser } from "../../store/features/users/userSlice";
+import { useDispatch } from 'react-redux';
+import { updateUser } from '../../store/features/users/userSlice';
 
 const inicialValues = {
     first_name:'',
@@ -17,15 +17,22 @@ const inicialValues = {
     is_superuser:false
 }
 
-const RegisterUser = ({toggle}) => {
+const EditUser = ({toggle, user}) => {
     const [showPassword, setShowPassword] = useState(false)
     const [checked, setChecked] = useState(false)
-    const {register, formData, resetForm} = useForm(inicialValues)
+    const {register, formData, resetForm, setFormData} = useForm(inicialValues)
     const dispatch = useDispatch()
+
+    useEffect(()=>{
+        if(user){
+            setFormData(user)
+            setChecked(user.is_superuser)
+        }
+    },[user])
     const onSubmit = (e)=>{
         e.preventDefault();
         const userform = {...formData, is_superuser:checked}
-        dispatch(addUser(userform));
+        dispatch(updateUser({id:userform.id,data:userform}));
         handleClose();
     }
     const handleClose = () =>{
@@ -38,7 +45,7 @@ const RegisterUser = ({toggle}) => {
         <Box>
             <form onSubmit={onSubmit}>
                 <fieldset style={{ border: '1.5px solid #E0E0E0', borderRadius: 10, paddingTop: 20 }}>
-                    <legend style={{ textAlign: 'center' }}><Typography variant='subtitle2'>Agregar Nuevo Usuario</Typography></legend>
+                    <legend style={{ textAlign: 'center' }}><Typography variant='subtitle2'>Edistar Usuario</Typography></legend>
                     <Table column={2}>
                         <Tr>
                             <Td spacing={2}>
@@ -143,4 +150,4 @@ const RegisterUser = ({toggle}) => {
         </Box>
     )
 }
-export default RegisterUser;
+export default EditUser;

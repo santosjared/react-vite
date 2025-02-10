@@ -5,7 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Cancel';
 import useForm from '../../hooks/useForm';
 import { useDispatch } from "react-redux";
-import { addProduct } from "../../store/features/products/productSlice";
+import { addProduct, updateProduct } from "../../store/features/products/productSlice";
 import { instance } from "../../config/instance";
 
 const inicialValues = {
@@ -19,13 +19,12 @@ const inicialValues = {
     ontherWarehouse:''
 }
 
-const RegisterProducts = ({ toggle }) => {
+const EditProducts = ({ toggle, product }) => {
 
     const [category, setCategory] = useState([])
     const [warehouse, setWarehouse] = useState([])
-    const { register, formData, resetForm } = useForm(inicialValues)
+    const { register, formData, resetForm, setFormData } = useForm(inicialValues)
     const dispatch = useDispatch()
-
     useEffect(() => {
         const fecth = async () => {
             try {
@@ -36,7 +35,7 @@ const RegisterProducts = ({ toggle }) => {
             }
         }
         fecth()
-    }, [toggle])
+    }, [])
 
     useEffect(() => {
         const fecth = async () => {
@@ -49,6 +48,12 @@ const RegisterProducts = ({ toggle }) => {
         }
         fecth()
     }, [])
+
+    useEffect(()=>{
+        if(product){
+            setFormData(product)
+        }
+    },[product])
     const onSubmit = async(e) => {
         e.preventDefault();
         try{
@@ -67,7 +72,7 @@ const RegisterProducts = ({ toggle }) => {
                 console.log('almacenes',res.data)
                 formProduct = {...formProduct, warehouse:res.data.id}
             }
-            dispatch(addProduct(formProduct));
+            dispatch(updateProduct({id:formProduct.id,data:formProduct}));
         }catch(error){
             console.log(error)
         }
@@ -216,4 +221,4 @@ const RegisterProducts = ({ toggle }) => {
         </Box>
     )
 }
-export default RegisterProducts;
+export default EditProducts;

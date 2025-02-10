@@ -20,15 +20,15 @@ export const ListNavegation = [{
     component:<Users/>
 },
 {
-    title:'Almacenes',
-    path:'/almacenes',
-    icon:<Inventory2Icon/>,
-    component:<Warehouse/>
-},
-{
     title:'Productos',
     path:'/productos',
     icon:<ShoppingCartIcon/>,
     component:<Products/>
+},
+{
+    title:'Almacenes',
+    path:'/almacenes',
+    icon:<Inventory2Icon/>,
+    component:<Warehouse/>
 }
 ]

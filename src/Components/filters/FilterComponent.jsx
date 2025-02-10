@@ -1,4 +1,4 @@
-import { Box, Button, Card, FormControl, styled, TextField } from '@mui/material'
+import { Box, Button, Card, FormControl, InputLabel, MenuItem, Select, styled, TextField } from '@mui/material'
 import FilterListIcon from '@mui/icons-material/FilterList';
 import useForm from '../../hooks/useForm'
 import { Fragment, useState } from 'react';
@@ -19,16 +19,17 @@ const Td = styled(Box)(({ spacing }) => ({
   padding: `${spacing}px`,
   textAlign: 'center',
 }))
-const FilterComponent = ({ values, toggleDrawer }) => {
+const FilterComponent = ({ values, toggleDrawer, setValues }) => {
 
   const [openFilters, setOpenFilters] = useState(false)
   const { register, formData, resetForm } = useForm()
   const toggleFilter = () => setOpenFilters(!openFilters)
   const handleFilters = () => {
-    console.log('datos enviados', formData)
+    setValues(formData)
   }
   const handleReset = () => {
     resetForm()
+    setValues(null)
   }
   return (
     <Fragment>
@@ -47,24 +48,47 @@ const FilterComponent = ({ values, toggleDrawer }) => {
             <Tr>
               {values.map((value, index) => (
                 <Td spacing={1} key={index}>
-                  <FormControl fullWidth sx={{ mb: 1 }}>
-                    <TextField label={value.label}
-                      variant='standard'
-                      {...register(value.field)}
-                      fullWidth
-                      autoComplete='off'
-                      InputProps={{
-                        startAdornment: <FilterListIcon />,
-                      }}
-                    />
-                  </FormControl>
+                  
+                    {value.options ?
+                      <FormControl variant="standard" fullWidth >
+                        <InputLabel id="demo-simple-select-standard-label">{value.label}</InputLabel>
+                        <Select
+                          labelId="demo-simple-select-standard-label"
+                          id="demo-simple-select-standard"
+                          label={value.label}
+                          {...register(value.field)}
+                        >
+                          {value.options.map((option, index) => (
+                            <MenuItem
+                            value={option.value}
+                            key={index}
+                            >
+                              {option.label}
+                            </MenuItem>))}
+                        </Select>
+                        </FormControl>
+                      :
+                      <FormControl fullWidth sx={{ mb: 1 }}>
+                      <TextField label={value.label}
+                        variant='standard'
+                        {...register(value.field)}
+                        fullWidth
+                        autoComplete='off'
+                        type={value.type? value.type:'text'}
+                        slotProps={{
+                          input: { startAdornment: <FilterListIcon />, },
+                        }}
+                      />
+                      </FormControl>
+                    }
+                  
                 </Td>
               ))}
             </Tr>
           </TableFilter>
           <Box>
-          <Button variant="contained" sx={{ mr: 3 }} onClick={handleFilters}>Filtrar</Button>
-          <Button variant="outlined" onClick={handleReset}>Restablecer</Button>
+            <Button variant="contained" sx={{ mr: 3 }} onClick={handleFilters}>Filtrar</Button>
+            <Button variant="outlined" onClick={handleReset}>Restablecer</Button>
           </Box>
         </Card>
       )}
